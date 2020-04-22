@@ -6,6 +6,18 @@
       <textarea class='left' rows="15" v-model="myText" placeholder="請貼上要轉換的文章全文" v-autofocus></textarea>
       <textarea class='right' rows="15" placeholder="這裡是結果" :value="tr(myText)"></textarea>
     </div>
+    <br/>
+    <div class="source">
+      <ol>
+        <li>
+          <a href="https://www.github.com/bestian/zhfixer" target="_blank">原始碼</a>
+        </li>
+        <li>
+          <a href="https://bestian.github.io/zhfixer/trans.json" target="_blank">元資料</a>
+        </li>
+      </ol>
+    </div>
+    <br/>
     <div class="index">
       <ol>
         <li v-for="(t, idx) in transList" :key = "idx">
@@ -33,7 +45,7 @@ export default {
     }
   },
   mounted () {
-    this.$http.get('/trans.json').then(response => {
+    this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
       this.transList = response.data
     })
   },
@@ -81,7 +93,7 @@ textarea {
   white-space: pre;
 }
 
-.index {
+.index, .source {
   display: inline-block;
   max-width: 420px;
 }
