@@ -18,13 +18,13 @@
       </ol>
     </div>
     <br/>
-    <div class="index">
+    <!-- <div class="index">
       <ol>
         <li v-for="(t, idx) in transList" :key = "idx">
-          {{ t[0] }} =&gt; {{t[1]}}
+          <pre>{{ t[0] }}&#9;{{t[1]}}</pre>
         </li>
       </ol>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -34,7 +34,7 @@ export default {
   methods: {
     tr (text) {
       var ans = text
-      var list = this.transList
+      var list = this.transList2
       for (let i = 0; i < list.length; i++) {
         const o = list[i][0]
         const n = list[i][1]
@@ -45,14 +45,30 @@ export default {
     }
   },
   mounted () {
+    var vm = this
     this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
-      this.transList = response.data
+      vm.transList1 = response.data
+      this.$http.get('/trans.txt').then(response => {
+        var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
+        vm.transList2 = par(response.data)
+        for (var i = 0; i < vm.transList1.length; i++) {
+          var s = vm.transList1[i]
+          console.log(s)
+          if (vm.transList2.map((a) => { return String(a) }).indexOf(String(s)) === -1) {
+            vm.transList.push(s)
+            vm.transList2.push(s)
+          }
+        }
+        vm.transList2.sort()
+      })
     })
   },
   data () {
     return {
       myText: '',
-      transList: ['松口', '鬆口']
+      transList: [],
+      transList1: [],
+      transList2: []
     }
   }
 }
@@ -96,6 +112,7 @@ textarea {
 .index, .source {
   display: inline-block;
   max-width: 420px;
+  text-align: left;
 }
 
 </style>
