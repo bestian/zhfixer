@@ -48,7 +48,7 @@ export default {
     var vm = this
     this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
       vm.transList1 = response.data
-      this.$http.get('/trans.txt').then(response => {
+      this.$http.get('https://bestian.github.io/zhfixer/trans.txt').then(response => {
         var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
         vm.transList2 = par(response.data)
         for (var i = 0; i < vm.transList1.length; i++) {
