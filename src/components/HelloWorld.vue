@@ -18,9 +18,9 @@
       </ol>
     </div>
     <br/>
-    <!-- <div class="index">
+<!--    <div class="index">
       <ol>
-        <li v-for="(t, idx) in transList" :key = "idx">
+        <li v-for="(t, idx) in transList2" :key = "idx">
           <pre>{{ t[0] }}&#9;{{t[1]}}</pre>
         </li>
       </ol>
@@ -46,17 +46,22 @@ export default {
   },
   mounted () {
     var vm = this
-    this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
-      vm.transList1 = response.data
+     this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
+     vm.transList1 = response.data
+    // this.$http.get('/diffZhCn-ZhTw.txt').then(response => {
+    //  var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
+    //  vm.transList1 = par(response.data)
       this.$http.get('https://bestian.github.io/zhfixer/trans.txt').then(response => {
         var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
         vm.transList2 = par(response.data)
+        console.log(vm.transList2.map((a) => { return a[0] }).indexOf('发妻'))
         for (var i = 0; i < vm.transList1.length; i++) {
-          var s = vm.transList1[i]
+          var s = vm.transList1[i][0]
+          var t = vm.transList1[i][1]
           console.log(s)
-          if (vm.transList2.map((a) => { return String(a) }).indexOf(String(s)) === -1) {
-            vm.transList.push(s)
-            vm.transList2.push(s)
+          if (vm.transList2.map((a) => { return a[0] }).indexOf(s) === -1) {
+            vm.transList.push([s, t])
+            vm.transList2.push([s, t])
           }
         }
         vm.transList2.sort()
