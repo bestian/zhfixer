@@ -18,13 +18,13 @@
       </ol>
     </div>
     <br/>
-<!--    <div class="index">
+    <div class="index">
       <ol>
         <li v-for="(t, idx) in transList2" :key = "idx">
           <pre>{{ t[0] }}&#9;{{t[1]}}</pre>
         </li>
       </ol>
-    </div> -->
+    </div>
   </div>
 </template>
 
@@ -46,11 +46,11 @@ export default {
   },
   mounted () {
     var vm = this
-    this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
-      vm.transList1 = response.data
-      // this.$http.get('/diffZhCn-ZhTw.txt').then(response => {
-      //  var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
-      //  vm.transList1 = par(response.data)
+    // this.$http.get('https://bestian.github.io/zhfixer/trans.json').then(response => {
+    // vm.transList1 = response.data
+    this.$http.get('/diffZhCn-ZhTw.txt').then(response => {
+      var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
+      vm.transList1 = par(response.data)
       this.$http.get('https://bestian.github.io/zhfixer/trans.txt').then(response => {
         var par = (txt) => { return txt.split('\n').map((l) => { return l.split('\t') }) }
         vm.transList2 = par(response.data)
